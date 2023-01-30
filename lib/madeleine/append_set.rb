@@ -2,6 +2,7 @@
 
 # typed: strict
 
+require_relative "version"
 require "sqlite3"
 
 module Madeleine

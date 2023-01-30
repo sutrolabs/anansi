@@ -1,10 +1,19 @@
-GEM
+PATH
+  remote: .
   specs:
+    madeleine (0.0.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    sqlite3 (1.5.3-arm64-darwin)
 
 PLATFORMS
   arm64-darwin-21
 
 DEPENDENCIES
+  madeleine!
+  sqlite3
 
 BUNDLED WITH
    2.3.22
