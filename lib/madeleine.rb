@@ -2,7 +2,7 @@
 
 # typed: strict
 
-require_relative "version"
+require_relative "madeleine/version"
 require "sqlite3"
 
 module Madeleine
