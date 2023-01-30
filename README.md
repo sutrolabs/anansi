@@ -8,7 +8,7 @@ that of the little crumb of madeleine...
 
 Data structures that use constant memory by spilling to disk after crossing a size threshold.
 
-Currently the only support data structure is `AppendSet`.
+Currently the only supported data structure is `AppendSet`.
 
 ## Installation
 
