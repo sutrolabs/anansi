@@ -157,7 +157,7 @@ module Madeleine
       return if @spilled
       return if @store.size < SPILL_THRESHOLD
 
-      set_store = store
+      set_store = @store
       sqlite_store = SQLiteStore.new
       sqlite_store.add(set_store.all)
       @store = sqlite_store
