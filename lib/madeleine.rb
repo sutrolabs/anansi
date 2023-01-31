@@ -53,7 +53,6 @@ module Madeleine
         # deleted from disk) when this object goes out of scope. Worst-case, files
         # on disk should get reaped at process exit or dyno reboot.
         @tempfile = Tempfile.new(%w[AppendSetSQLiteStore .sqlite3])
-        Rails.logger.debug "Initializing #{self.class.name} at #{@tempfile.path}"
 
         # We immediately unlink the file so that it is guaranteed to be removed
         # from disk on process exit (by the OS). In testing, I've found that Ruby
