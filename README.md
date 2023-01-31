@@ -1,4 +1,5 @@
-# Madeleine
+# Madeleine - A hybrid Ruby Set using memory and Disk (using sqlite3) for large sized tasks
+
 > And suddenly the memory returns. The taste was
 that of the little crumb of madeleine...
 
