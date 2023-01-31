@@ -139,7 +139,7 @@ module Madeleine
     end
 
     # Facade that implements Store by proxying to SetStore or SQLiteStore. The
-    # spillover logic is also included here, as well as an optimization for any?
+    # spillover logic is also included here, as well as an optimization for +any?+
     extend T::Sig
     extend T::Generic
     include Store
@@ -152,9 +152,9 @@ module Madeleine
 
     # This is pretty arbitrary, but assuming that each key is ~200 bytes in memory
     # (a conservative estimate), it means that we'll never burn more than 100MB of
-    # RAM on this set before we go to disk, which should be managable on our
-    # infra. Ideally we could express this as a byte threshold, not an item
-    # threshold - I couldn't find an easy / cheap way to do that in Ruby.
+    # RAM on this set before we go to disk. Ideally we could express this as a byte
+    # threshold, not an item threshold - I couldn't find an easy / cheap way to do
+    # that in Ruby.
     SPILL_THRESHOLD = 500_000
 
     T::Sig::WithoutRuntime.sig { void }
