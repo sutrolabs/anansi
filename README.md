@@ -4,6 +4,10 @@ that of the little crumb of madeleine...
 
 **- Marcel Proust** (In Search of Lost Time)
 
+## Why?
+
+A Ruby Set in memory isn't great for huge tasks. We need a way to use Disk as well when handling a Set.
+
 ## What?
 
 Data structures that use constant memory by spilling to disk after crossing a size threshold.
