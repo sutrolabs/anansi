@@ -3,6 +3,7 @@
 # typed: strict
 
 require "sqlite3"
+require "sorbet-runtime"
 
 module Madeleine
   # An append-only implementation of parts of Set from the stdlib that uses
@@ -19,13 +20,13 @@ module Madeleine
 
       Item = type_member { { upper: Object } }
 
-      sig { abstract.returns(Integer) }
+      T::Sig::WithoutRuntime.sig { abstract.returns(Integer) }
       def size; end
 
-      sig { abstract.params(item: Item).returns(T::Boolean) }
+      T::Sig::WithoutRuntime.sig { abstract.params(item: Item).returns(T::Boolean) }
       def include?(item); end
 
-      sig { abstract.params(items: T::Enumerable[Item]).void }
+      T::Sig::WithoutRuntime.sig { abstract.params(items: T::Enumerable[Item]).void }
       def add(items); end
     end
 
@@ -38,27 +39,27 @@ module Madeleine
 
       include Store
 
-      sig { void }
+      T::Sig::WithoutRuntime.sig { void }
       def initialize
         @set = T.let(Set.new, T::Set[Item])
       end
 
-      sig { returns(T::Enumerable[Item]) }
+      T::Sig::WithoutRuntime.sig { returns(T::Enumerable[Item]) }
       def all
         @set
       end
 
-      sig { override.returns(Integer) }
+      T::Sig::WithoutRuntime.sig { override.returns(Integer) }
       def size
         @set.size
       end
 
-      sig { override.params(item: Item).returns(T::Boolean) }
+      T::Sig::WithoutRuntime.sig { override.params(item: Item).returns(T::Boolean) }
       def include?(item)
         @set.include?(item)
       end
 
-      sig { override.params(items: T::Enumerable[Item]).void }
+      T::Sig::WithoutRuntime.sig { override.params(items: T::Enumerable[Item]).void }
       def add(items)
         items.each { |item| @set.add(item) }
       end
@@ -73,7 +74,7 @@ module Madeleine
 
       include Store
 
-      sig { void }
+      T::Sig::WithoutRuntime.sig { void }
       def initialize
         # Both +@tempfile+ and +@sqlite+ get automatically cleaned up (closed,
         # deleted from disk) when this object goes out of scope. Worst-case, files
@@ -109,19 +110,19 @@ module Madeleine
           T.let(@sqlite.prepare("select exists(select 1 from items where item = ?)"), SQLite3::Statement)
       end
 
-      sig { override.returns(Integer) }
+      T::Sig::WithoutRuntime.sig { override.returns(Integer) }
       def size
         result = @count_statement.execute
         result.first.first
       end
 
-      sig { override.params(item: Item).returns(T::Boolean) }
+      T::Sig::WithoutRuntime.sig { override.params(item: Item).returns(T::Boolean) }
       def include?(item)
         result = @include_statement.execute(marshal(item))
         result.first.first == 1
       end
 
-      sig { override.params(items: T::Enumerable[Item]).void }
+      T::Sig::WithoutRuntime.sig { override.params(items: T::Enumerable[Item]).void }
       def add(items)
         # transaction should improve bulk insert performance
         @sqlite.execute "begin"
@@ -131,7 +132,7 @@ module Madeleine
 
       private
 
-      sig { params(item: Item).returns(String) }
+      T::Sig::WithoutRuntime.sig { params(item: Item).returns(String) }
       def marshal(item)
         Base64.encode64(Marshal.dump(item))
       end
@@ -156,13 +157,13 @@ module Madeleine
     # threshold - I couldn't find an easy / cheap way to do that in Ruby.
     SPILL_THRESHOLD = 500_000
 
-    sig { void }
+    T::Sig::WithoutRuntime.sig { void }
     def initialize
       @store = T.let(SetStore[Item].new, Store[Item])
       @spilled = T.let(false, T::Boolean)
     end
 
-    sig { returns(T::Boolean) }
+    T::Sig::WithoutRuntime.sig { returns(T::Boolean) }
     def any?
       if @spilled
         # We must be non-empty if we've spilled to SQLite, so avoid an expensive
@@ -174,17 +175,17 @@ module Madeleine
       end
     end
 
-    sig { override.returns(Integer) }
+    T::Sig::WithoutRuntime.sig { override.returns(Integer) }
     def size
       @store.size
     end
 
-    sig { override.params(item: Item).returns(T::Boolean) }
+    T::Sig::WithoutRuntime.sig { override.params(item: Item).returns(T::Boolean) }
     def include?(item)
       @store.include?(item)
     end
 
-    sig { override.params(items: T::Enumerable[Item]).void }
+    T::Sig::WithoutRuntime.sig { override.params(items: T::Enumerable[Item]).void }
     def add(items)
       items.each_slice(ADD_BATCH_SIZE) do |slice|
         @store.add(slice)
@@ -194,7 +195,7 @@ module Madeleine
 
     private
 
-    sig { void }
+    T::Sig::WithoutRuntime.sig { void }
     def spill_if_needed!
       return if @spilled
       return if @store.size < SPILL_THRESHOLD
