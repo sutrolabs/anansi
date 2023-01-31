@@ -6,7 +6,7 @@ that of the little crumb of madeleine...
 
 ## Why?
 
-A Ruby Set in memory isn't great for huge tasks. We need a way to use Disk as well when handling a Set.
+A Ruby Set in memory isn't great for huge tasks. But a disk based Set is too slow for everything. We need the best of both worlds.
 
 ## What?
 
