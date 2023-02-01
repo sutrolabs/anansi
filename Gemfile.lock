@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    anansi (0.0.0)
+    anansi (0.0.1)
 
 GEM
   remote: https://rubygems.org/
