@@ -4,6 +4,10 @@
 
 require "sqlite3"
 require "sorbet-runtime"
+require "set"
+require "base64"
+
+require_relative "anansi/version"
 
 module Anansi
   # An append-only implementation of parts of Set from the stdlib that uses
@@ -41,7 +45,7 @@ module Anansi
 
       T::Sig::WithoutRuntime.sig { void }
       def initialize
-        @set = T.let(Set.new, T::Set[Item])
+        @set = T.let(::Set.new, T::Set[Item])
       end
 
       T::Sig::WithoutRuntime.sig { returns(T::Enumerable[Item]) }
@@ -134,7 +138,7 @@ module Anansi
 
       T::Sig::WithoutRuntime.sig { params(item: Item).returns(String) }
       def marshal(item)
-        Base64.encode64(Marshal.dump(item))
+        ::Base64.encode64(Marshal.dump(item))
       end
     end
 
