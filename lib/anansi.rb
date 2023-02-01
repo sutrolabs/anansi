@@ -20,7 +20,7 @@ module Anansi
       extend T::Helpers
       extend T::Generic
 
-      interface!
+      abstract!
 
       Item = type_member { { upper: Object } }
 
